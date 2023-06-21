@@ -1,0 +1,64 @@
+flowchart TD
+    Title[Encounter Heirarchy] --> Drunk{Are you drunk?}
+    Drunk --> |Yes| DrunkZone[Zone set to Drunken Stupor]
+    Drunk --> |No| HardCoded
+    DrunkZone -.- SSPD[If St. Sneaky Pete's Day and drunkenness 26+, receive SSPD Stupor]
+    DrunkZone --> HardCoded
+    HardCoded{Hard-Coded?}
+    HardCoded --> |Yes| Encounter
+    HardCoded --> |No| PortScan
+
+    subgraph "Zone Overrides"
+        ZoneOverrideNote["Not &quot;true&quot; wandering monsters.<br>These are special exceptions that have higher priority"]
+        PortScan[Port Scan] --> ProtoPack[Protopack Ghost]
+    end
+    ProtoPack --> AstralMushroom
+
+    AstralMushroom{"Flashbacks<br />(Astral Mushrooms)"} --> |Yes| Encounter
+    AstralMushroom --> |No| MiniAdventurer
+
+    MiniAdventurer{"Littlest Identity Crisis<br />(Mini-Adventurer)"} --> |Yes| Encounter
+    MiniAdventurer --> |No| LlamaLama
+
+    LlamaLama{"Welcome Back<br />(Llama Lama Gong)"} --> |Yes| Encounter
+    LlamaLama --> |No| Lucky
+
+    Lucky{"Lucky"} --> |Yes| Encounter
+    Lucky --> |No| Halloweiner
+
+    Halloweiner{"Halloweiner Dog"} --> |Yes| Encounter
+    Halloweiner --> |No| SuperLikely
+
+    SuperLikely{"Superlikely available<br>and conditions satisfied"} --- |Yes| SuperlikelyNote["Equal chance of encountering multiple satisfied superlikelies"] --> Encounter
+    SuperLikely --> |No| Wanderers
+
+    Wanderers{Wanderer Due?}
+    Wanderers --> |Yes| RubberSpider
+    Wanderers --> |No| Kramco
+
+    %% Wanderer Priority
+    subgraph "Wanderer Priority"
+        RubberSpider[Rubber Spider] -->
+        FeastOfBoris[Feast of Boris] -->
+        Saber[Saber Friends] -->
+        TimeSpinner[Time-Spinner Prank] -->
+        VotingBooth[Vote Monster] -->
+        Digitize[Digitize] -->
+        Wink[Reanimator/Angel] -->
+        Enamorang -->
+        Nemesis[Nemesis Quest Thug] -->
+        EDLMB[El Dia De Los Muertos]
+    end
+    EDLMB --> Encounter
+
+    Kramco{Kramco Goblin} --> |Yes| Encounter
+    Kramco --> |No| Hipster
+
+    Hipster{Hipster/Goth} --> |Yes| Encounter
+    Hipster --> |No| RollCombat
+
+    subgraph "Combat Selection"
+        RollCombat[Roll 1d100 against zone combat rate]
+    end
+
+    Encounter[That's your encounter!]
