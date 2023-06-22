@@ -55,10 +55,40 @@ flowchart TD
     Kramco --> |No| Hipster
 
     Hipster{Hipster/Goth} --> |Yes| Encounter
-    Hipster --> |No| RollCombat
+    Hipster --> |No| RollEncounter
 
-    subgraph "Combat Selection"
-        RollCombat[Roll 1d100 against zone combat rate]
+    subgraph "Zone Encounter Selection"
+        RollEncounter{Roll 1d100<br>against zone combat rate}
+        RollEncounter --Combat--> AnyCombats
+        RollEncounter ---> |Non-combat| AnyNonCombats
+
+        AnyNonCombats{Any non-combats available?}
+        AnyNonCombats ---> |Yes| RollNonCombat
+        AnyNonCombats ---> |No| AnyCombats
+
+        RollNonCombat[Roll for NC]
+        RollNonCombat --> NonCombatInQueue{Rolled NC in queue?}
+        NonCombatInQueue --> |Yes| NonCombatRejection{Roll for rejection}
+        NonCombatInQueue --> |No| EncounterSelected
+        NonCombatRejection --> |"Rejected (75%)"| RollNonCombat
+        NonCombatRejection --> |"Accepted (25%)"| EncounterSelected
+
+        AnyCombats{Any combats available?}
+        AnyCombats --> |Yes| RollCombat
+        AnyCombats --> |No| Tumbleweed --> EncounterSelected
+
+        RollCombat[Roll for Combat]
+        RollCombat --> Olfacted{Olfacted?}
+        Olfacted --> |Yes| EncounterSelected
+        Olfacted --> |No| CombatInQueue{Rolled combat in queue?}
+        CombatInQueue --> |Yes| CombatRejection{Roll for rejection}
+        CombatInQueue --> |No| EncounterSelected
+        CombatRejection --> |"Accepted (25%)"| EncounterSelected
+        CombatRejection --> |"Rejected (75%)"| RollCombat
+
+        EncounterSelected[Encounter selected from zone]
     end
+
+    EncounterSelected --> Encounter
 
     Encounter[That's your encounter!]
