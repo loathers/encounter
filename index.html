@@ -1,0 +1,18 @@
+<html>
+  <head>
+    <script type="module">
+      import mermaid from "https://cdn.jsdelivr.net/npm/mermaid@10/dist/mermaid.esm.min.mjs";
+      mermaid.initialize({ startOnLoad: false });
+
+      const request = await fetch("https://raw.githubusercontent.com/loathers/encounter/main/heirarchy.mermaid");
+      const markup = await request.text();
+
+      const chart = document.getElementById("chart");
+      chart.textContent = markup;
+      await mermaid.run({ nodes: [chart] });
+    </script>
+  </head>
+  <body>
+    <pre id="chart"></pre>
+  </body>
+</html>
