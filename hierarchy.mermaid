@@ -1,5 +1,5 @@
 flowchart TD
-    Title[Encounter Heirarchy] --> Drunk{Are you drunk?}
+    Title[Encounter Hierarchy] --> Drunk{Are you drunk?}
     Drunk --> |Yes| DrunkZone[Zone set to Drunken Stupor]
     Drunk --> |No| HardCoded
     DrunkZone -.- SSPD[If St. Sneaky Pete's Day and drunkenness 26+, receive SSPD Stupor]
