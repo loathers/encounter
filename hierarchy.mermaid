@@ -9,10 +9,10 @@ flowchart TD
     HardCoded --> |No| PortScan
 
     subgraph "Zone Overrides"
-        ZoneOverrideNote["Not &quot;true&quot; wandering monsters.<br>These are special exceptions that have higher priority"]
-        PortScan[Port Scan] --> ProtoPack[Protopack Ghost]
+        ZoneOverrideNote["Not a &quot;true&quot; wandering monster.<br>This is a special exception that has higher priority"]
+        PortScan[Port Scan] 
     end
-    ProtoPack --> AstralMushroom
+    PortScan --> AstralMushroom
 
     AstralMushroom{"Flashbacks<br />(Astral Mushrooms)"} --> |Yes| Encounter
     AstralMushroom --> |No| MiniAdventurer
@@ -30,14 +30,20 @@ flowchart TD
     Hallowiener --> |No| SuperLikely
 
     SuperLikely{"Superlikely available<br>and conditions satisfied"} --- |Yes| SuperlikelyNote["Equal chance of encountering multiple satisfied superlikelies"] --> Encounter
-    SuperLikely --> |No| Wanderers
+    SuperLikely --> |No| ProtoPack
 
+     subgraph "Zone Overrides"
+        ZoneOverrideNote["Not a &quot;true&quot; wandering monster.<br>This is a special exception that has higher priority"]
+        ProtoPack[Protopack Ghost]
+    end
+    ProtoPack --> Wanderers
     Wanderers{Wanderer Due?}
-    Wanderers --> |Yes| RubberSpider
+    Wanderers --> |Yes| VHS
     Wanderers --> |No| Kramco
 
     %% Wanderer Priority
     subgraph "Wanderer Priority"
+        VHS[Spooky VHS Tape] -->
         RubberSpider[Rubber Spider] -->
         FeastOfBoris[Feast of Boris] -->
         Saber[Saber Friends] -->
@@ -55,7 +61,20 @@ flowchart TD
     Kramco --> |No| Hipster
 
     Hipster{Hipster/Goth} --> |Yes| Encounter
-    Hipster --> |No| RollEncounter
+    Hipster --> |No| JuneCleaver
+
+    JuneCleaver{June Cleaver<br>Daydream} --> |Yes| Encounter
+    JuneCleaver --> |No| MapMon
+
+    MapMon{Map the<br>Monsters} --> |Yes| Encounter
+    MapMon --> |No| Peridot
+
+    Peridot{Peridot} --> |Yes| Encounter
+    Peridot --> |No| NcForce
+
+    NcForce{Non-combat Forced} --> |Yes| Encounter
+    NcForce --> |No| RollEncounter
+
 
     subgraph "Zone Encounter Selection"
         RollEncounter{Roll 1d100<br>against zone combat rate}
